@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/mybackgroundlayout">
+
+    <ImageView
+        android:src="@drawable/ic_launcher_background"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:id="@+id/mImage"/>
+
+    <ImageView
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/mImage1"
+        android:layout_width="120dp"
+        android:background="@color/colorAccent"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@+id/mImage"/>
+    <ImageView
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/mImage2"
+        android:layout_width="120dp"
+        android:background="@color/colorPrimary"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@+id/mImage"
+        android:layout_alignBottom="@+id/mImage"/>
+
+    <TextView
+        android:textSize="32dp"
+        android:id="@+id/mText"
+        android:layout_alignBottom="@+id/mImage"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Hello World"/>
+</RelativeLayout>
+
