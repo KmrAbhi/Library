@@ -30,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
         //JSON SAMPLE MODELING KA ALTERNATIVE
         ArrayList<String> image_url = new ArrayList<String>();
-        image_url.add("https://www.google.es/images/srpr/logo11w.png");
-        image_url.add("https://placeimg.com/800/800/animals");
-        image_url.add("https://placeimg.com/800/800/cat");
+       // image_url.add("https://www.google.es/images/srpr/logo11w.png");
+        image_url.add("https://static.elanic.co/elanicimages/medium_xxhdpi_post_image_e44206783cf566ef0271b8ffad440042.jpg");
+        image_url.add("https://static.elanic.co/elanicimages/medium_xxhdpi_post_image_07549057b66196a2b3dcb3764bf6a496.jpg");
+        image_url.add("https://static.elanic.co/elanicimages/thumbnail_hdpi_post_image_7a92702bfb758138091fe36bf29d7f45");
+       // image_url.add("800/800/cat");
         ArrayList<String> data = new ArrayList<String>();
         data.add("abc");
         //JSON SAMPLE MODELING KA ALTERNATIVE
@@ -41,29 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Bitmap b = libMain.lib_main_method(layout,ViewTypes,ViewId,image_url,data,context);
+        libMain.lib_main_method(layout,ViewTypes,ViewId,image_url,data,context);
 
 
-        Log.d("success","success");
-
-        //BITMAP SE URI AND THEN INTENT TO WHATSAPP
-
-        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.JPEG, 50, stream1);
-        String path =MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), b, "Title", null);
-        Uri ImageUri = Uri.parse(path);
-
-
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_STREAM , ImageUri) ;
-
-        shareIntent.setPackage("com.whatsapp");
-
-        Log.d("abt to start","started");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(shareIntent);
 
 
     }

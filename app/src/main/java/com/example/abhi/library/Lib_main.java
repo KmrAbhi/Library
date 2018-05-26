@@ -2,21 +2,18 @@ package com.example.abhi.library;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.example.abhi.library.R;
-
 import java.util.ArrayList;
+import rx.Observable;
+import rx.Subscriber;
+
 
 /**
  * Created by abhi on 21/5/18.
@@ -26,6 +23,69 @@ import java.util.ArrayList;
 public class Lib_main {
     private View view1;
     float density;
+    Bitmap b;
+    int flag =0;
+    private WhatsAppIntent whatsAppIntent = new WhatsAppIntent();
+
+
+    public void lib_main_method(int mlayout, ArrayList<String> viewtypes, final ArrayList<Integer> view_id, final ArrayList<String> image_url, ArrayList<String> data, final Context context) {
+
+
+        view1 = LayoutInflater.from(context).inflate(mlayout, null);
+        density = context.getResources().getDisplayMetrics().density;
+        view1.layout(0, 0, (int) (360 * density), (int) (250 * density));
+        final ImageView image[] = new ImageView[image_url.size()];
+        TextView text[] = new TextView[data.size()];
+        final Observable<Bitmap> Bitmaps[] = new Observable[image_url.size()];
+
+
+        for (int i = 0; i < image_url.size(); i++) {
+            image[i] = view1.findViewById(view_id.get(i));
+        }
+
+
+        for (int i = 0; i < image_url.size(); i++) {
+            Log.d("moving_in", "moving_in");
+            final int temp = i;
+
+
+            Glide.with(context).load(image_url.get(i)).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    Bitmaps[temp]= Observable.just(resource);
+
+                  Bitmaps[temp].subscribe(new Subscriber<Bitmap>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.d("0 completed", Integer.toString(temp));
+
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("e", "e");
+
+                        }
+
+                        @Override
+                        public void onNext(Bitmap bitmap) {
+                            image[temp].setImageBitmap(bitmap);
+                            Log.d("set", Integer.toString(temp));
+                            callingFinal(image_url.size(),context);
+
+                        }
+                    });
+
+
+                }
+            });
+
+
+        }
+    }
+
+
     Bitmap getViewBitmap(View view) {
         //Get the dimensions of the view so we can re-layout the view at its current size
         //and create a bitmap of the same size
@@ -40,56 +100,63 @@ public class Lib_main {
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
 
         //Create a bitmap backed Canvas to draw the view into
-        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(b);
+        Bitmap b_func = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b_func);
 
         //Now that the view is laid out and we have a canvas, ask the view to draw itself into the canvas
         view.draw(c);
 
-        return b;
+        return b_func;
     }
 
 
-
-    public Bitmap lib_main_method(int  mlayout, ArrayList<String> viewtypes, ArrayList<Integer> view_id, ArrayList<String> image_url, ArrayList<String> data, Context context){
-
-        int length = viewtypes.size();
-        Bitmap b;
-        view1 = LayoutInflater.from(context).inflate(mlayout, null);
-        density = context.getResources().getDisplayMetrics().density;
-        view1.layout(0, 0, (int) (360 * density), (int) (250 * density));
-        int imageview =0;
-        int textview=0;
-        ImageView image[] = new ImageView[image_url.size()];
-        TextView text[]= new TextView[data.size()];
-        ArrayList<ImageView> image_view = new ArrayList<ImageView>();
-
-
-        for(int i = 0;i<length;i++) {
-            switch (viewtypes.get(i)){
-                case "ImageView":
-                    image[imageview] = (ImageView)view1.findViewById(view_id.get(i));
-                    Glide.with(context).load()
-                    image[imageview].setImageResource(R.drawable.cat);
-                    imageview++;
-                    break;
-
-
-
-
-                case "TextView":
-                    text[textview]= (TextView)view1.findViewById(view_id.get(i));
-                    text[textview].setText(data.get(i));
-                    textview++;
-
-                    break;
-            }
-
-
-        }
-
-        b=getViewBitmap(view1);
-        return b;
-
+void callingFinal(int size, Context context){
+        flag++;
+        Log.d("flag called",Integer.toString(flag));
+    if(flag==size){
+        flag =0;
+        b = getViewBitmap(view1);
+       whatsAppIntent.startIntent(b, context);
     }
 }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
