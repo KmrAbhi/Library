@@ -35,7 +35,7 @@ public class Lib_main {
         density = context.getResources().getDisplayMetrics().density;
         view1.layout(0, 0, (int) (360 * density), (int) (250 * density));
         final ImageView image[] = new ImageView[image_url.size()];
-        TextView text[] = new TextView[data.size()];
+//        TextView text[] = new TextView[data.size()];
         final Observable<Bitmap> Bitmaps[] = new Observable[image_url.size()];
 
 
@@ -72,7 +72,7 @@ public class Lib_main {
                         public void onNext(Bitmap bitmap) {
                             image[temp].setImageBitmap(bitmap);
                             Log.d("set", Integer.toString(temp));
-                            callingFinal(image_url.size(),context);
+                            startIntent(image_url.size(),context);
 
                         }
                     });
@@ -83,6 +83,8 @@ public class Lib_main {
 
 
         }
+
+
     }
 
 
@@ -110,7 +112,7 @@ public class Lib_main {
     }
 
 
-void callingFinal(int size, Context context){
+void startIntent(int size, Context context){
         flag++;
         Log.d("flag called",Integer.toString(flag));
     if(flag==size){
